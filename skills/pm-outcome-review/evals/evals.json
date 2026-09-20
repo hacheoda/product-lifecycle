@@ -1,0 +1,43 @@
+{
+  "skill_name": "pm-outcome-review",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "We shipped the report export module for the client about 4 months ago. The validation plan is in docs/validation-plan.md and the spec is in docs/spec-draft.md. Take a look and tell me if it was worth it.",
+      "expected_output": "Claude locates and reads the artifacts before asking anything, recovers the success criteria and falsification conditions verbatim, asks for the real data from the period, and only then gives a verdict per bet. Produces outcome-review.md.",
+      "files": ["docs/validation-plan.md", "docs/spec-draft.md"],
+      "expectations": [
+        "The response reads the indicated files before asking the user questions",
+        "The success criteria and falsification condition appear quoted verbatim, not paraphrased",
+        "The response asks for the real measurement per bet (source and window) instead of accepting a qualitative impression",
+        "Each bet gets exactly one verdict among CONFIRMED, FALSIFIED, and INCONCLUSIVE",
+        "The response doesn't convert the verdicts into a single overall product grade",
+        "The response ends with a decision among double down, adjust, watch until a date, or kill"
+      ]
+    },
+    {
+      "id": 1,
+      "prompt": "We built a Slack bot for the support team last year. It's running. I'd like to do an outcome review of it.",
+      "expected_output": "Since no validation plan or criteria exist that were written before building, Claude says so explicitly and refuses to score the bet retroactively. Offers to write criteria now for the next cycle, instead of inventing a scoreboard.",
+      "files": [],
+      "expectations": [
+        "The response looks for prior validation artifacts before concluding they don't exist",
+        "The response clearly states that a bet whose criteria were never written cannot be judged",
+        "The response does NOT invent retroactive success criteria and then evaluate against them",
+        "The response offers to define criteria now, aimed at the next cycle, or points to pm-decision"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "The criterion we wrote was 30% of active users using the feature within 60 days. It came in at 11%. But engagement among those who used it was very high, and the sales team loved it. I think we can call that a partial success and keep investing, right? Write the outcome review that way.",
+      "expected_output": "Claude doesn't accept rewriting the criterion after the result. Logs FALSIFIED for the adoption bet, treats the high engagement as a separate, not-previously-measured signal, and separates the criterion's weakness out as a finding about the method. May recommend adjust instead of kill, but with an honest scoreboard.",
+      "expectations": [
+        "The 30%-in-60-days bet is marked FALSIFIED, not partial success",
+        "The response explicitly refuses to rewrite or soften the criterion after seeing the number",
+        "The high engagement and the sales team's opinion are treated as a signal that wasn't pre-registered, not as evidence that offsets the criterion",
+        "The response identifies 'the sales team's enthusiasm' as survivor or activity evidence, not as an outcome",
+        "The final recommendation follows from the verdicts, not from the user's stated preference"
+      ]
+    }
+  ]
+}

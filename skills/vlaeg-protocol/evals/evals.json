@@ -1,0 +1,28 @@
+{
+  "skill_name": "vlaeg-protocol",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "I need to build an automation that pulls new orders from Shopify every morning and sends a formatted summary to the team's Slack.",
+      "expected_output": "Claude doesn't jump to code. Creates (or proposes creating) task_plan.md, findings.md, progress.md, and vlaeg.md (Phase 0), and asks Phase 1's 5 Discovery questions (Guiding Star, Integrations, Source of Truth, Delivery Payload, Behavioral Rules) before defining the schema or writing any tool.",
+      "files": [],
+      "expectations": [
+        "The response asks Phase 1's Discovery questions (or a clear subset of them: desired outcome, integrations/credentials, source of truth, delivery format, behavioral rules) before proposing implementation",
+        "The response contains no ready-made automation/script code (e.g. Python calling the Shopify or Slack API)",
+        "The response mentions or creates the project's memory files (task_plan.md, findings.md, progress.md, vlaeg.md)",
+        "The response explicitly states that the data schema needs to be confirmed in vlaeg.md before coding"
+      ]
+    },
+    {
+      "id": 1,
+      "prompt": "I finished setting up the Notion API and Google Sheets credentials, and already defined the schema in vlaeg.md. Let's build the scripts that sync the data?",
+      "expected_output": "Since Vision and the schema are already done, Claude checks whether Phase 2's (Link) handshake was done before moving to Phase 3; when building, it separates into SOP (architecture/), routing logic, and deterministic tools/, and uses .env/.tmp/ per the protocol.",
+      "files": [],
+      "expectations": [
+        "The response checks or asks about the handshake/connection-test status (Phase 2 - Link) before assuming the integrations work",
+        "The response organizes the proposed solution into the protocol's 3 layers: SOP in architecture/, routing/decision layer, and deterministic tools/",
+        "The response doesn't silently assume the connection is working without any verification"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "skill_name": "pm-decision",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "A consulting client asked us to build an internal dashboard for them to track churn metrics in real time. Before I start writing the spec, can you help me think through whether this is actually worth building?",
+      "expected_output": "Claude acts as a thinking partner (Phase 1), not a spec writer. Asks framing questions (who feels the pain, why now, what 'solved' looks like), doesn't accept the idea as a given, and doesn't jump straight to designing the dashboard.",
+      "files": [],
+      "expectations": [
+        "The response asks at least two of Phase 1's framing questions (who has the problem, why now, what 'solved' means, the business case, what is NOT being solved)",
+        "The response questions/challenges the premise that it's worth building, instead of simply accepting it and moving forward",
+        "The response doesn't deliver a dashboard design, feature list, or spec as this step's main output",
+        "The response doesn't invent the user's answers to the questions it just asked"
+      ]
+    },
+    {
+      "id": 1,
+      "prompt": "I already know I want to ship a PDF report export feature for our product. Can you write the spec for it?",
+      "expected_output": "Since the direction is already decided, Claude skips to Phase 3 (Shape) instead of insisting on Phases 1/2, and produces (or moves toward) a spec-draft.md following the defined format: Problem, Who it's for, Why now, Solution, Scope (epics scored with RICE), Cut line, Milestones, MVP, Open Questions, Closed Questions, Out of Scope.",
+      "files": [],
+      "expectations": [
+        "The response doesn't repeat Phase 1's framing questions from scratch, recognizing the direction is already decided",
+        "A spec-draft.md file is created in the output folder",
+        "spec-draft.md contains the sections: Problem, Who it's for, Why now, Solution, Scope, Cut line, MVP, Open Questions, Closed Questions, Out of Scope",
+        "The scope is broken into epics, not atomic requirements or the whole product",
+        "Each epic has the four RICE factors (Reach, Impact, Confidence, Effort) and a calculated score",
+        "The response draws an explicit cut line between what goes into v1 and what gets deferred, keeping the deferred items' scores",
+        "The response doesn't assign high Confidence to an epic whose evidence doesn't support it, or asks for evidence before scoring"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "I already have the spec for the export module. Just tell me what we tackle first: PDF export, CSV export, or scheduled auto-send? I think scheduling is the coolest one.",
+      "expected_output": "Claude doesn't answer based on the stated preference and doesn't score it alone. Proposes the breakdown into epics and asks the user for the four RICE factors, bringing available evidence to inform each one. Does the arithmetic only after receiving the numbers.",
+      "files": [],
+      "expectations": [
+        "The response does NOT assign the Reach, Impact, Confidence, or Effort values itself",
+        "The response asks the user for the factors, and stops to wait for an answer instead of asking and answering in the same turn",
+        "The response doesn't endorse scheduling just because the user stated a preference for it",
+        "The response brings available evidence to inform each factor, or says there's no evidence for that factor",
+        "The response handles dependencies between items separately from the score"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "I scored all three: PDF export (Reach 4, Impact 3, Confidence 5, Effort 2), CSV export (Reach 4, Impact 3, Confidence 5, Effort 1), and scheduling (Reach 2, Impact 4, Confidence 5, Effort 4). In Phase 2 we only had two client interviews asking for scheduling, nothing about export. Calculate it.",
+      "expected_output": "Claude does the arithmetic, but flags that the three Confidence-5 scores contradict Phase 2: there's no evidence for export, and scheduling's evidence is two interviews, which is plausible/partially supported, not strong evidence. Proposes the correction to the user and leaves the decision with them, without changing the numbers on its own.",
+      "files": [],
+      "expectations": [
+        "The response calculates the scores with the numbers the user gave",
+        "The response points out that Confidence 5 on the export items contradicts Phase 2, which had no evidence for them",
+        "The response does NOT silently change any factor the user assigned",
+        "The response proposes the Confidence change and explicitly leaves the decision with the user",
+        "The response shows how the ranking would change if Confidence were corrected"
+      ]
+    }
+  ]
+}
